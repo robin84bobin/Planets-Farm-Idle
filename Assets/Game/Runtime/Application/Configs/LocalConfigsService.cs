@@ -14,7 +14,9 @@ namespace Game.Runtime.Application.Configs
     {
         [SerializeField]
         private ResourcesConfigsSO _resourcesConfigsSO;
-
+        [SerializeField]
+        private ItemsConfigsSO _farmItemsConfigsSO;
+        
         private readonly Dictionary<Type, object> _cachedConfigs = new();
 
         public UniTask Initialize()
@@ -42,6 +44,7 @@ namespace Game.Runtime.Application.Configs
             _cachedConfigs.Clear();
 
             AddToCache(_resourcesConfigsSO.ResourcesConfigs);
+            AddToCache(_farmItemsConfigsSO.ItemsConfigs);
         }
 
         private void AddToCache<T>(T config)

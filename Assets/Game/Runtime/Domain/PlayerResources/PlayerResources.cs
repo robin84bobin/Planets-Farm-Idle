@@ -9,12 +9,9 @@ namespace Game.Runtime.Domain.PlayerResources
     public class PlayerResources : ISnapshotable<PlayerResourcesSnapshot>
     {
         public event Action<string, ulong, ulong> ResourceCountAdded;
-
         public event Action<string, ulong, ulong> ResourceCountRemoved;
-
-        private Dictionary<string, ulong> _resources = new Dictionary<string, ulong>();
-
         public IReadOnlyDictionary<string, ulong> Resources => _resources;
+        private Dictionary<string, ulong> _resources = new ();
 
         public void Add(IEnumerable<Resource> resources)
         {
@@ -44,7 +41,7 @@ namespace Game.Runtime.Domain.PlayerResources
             {
                 if (_resources[resource.Id] < resource.Count)
                 {
-                    Debug.LogError($"[PlayerResources] Can't remove {resource.Id} {resource.Count} because player has {_resources[resource.Id]}");
+                    Debug.LogError($"[PlayerResources] Can't remove {resource.Id} {resource.Count} because player has {Resources[resource.Id]}");
                     _resources[resource.Id] = 0;
                 }
                 else
@@ -84,6 +81,10 @@ namespace Game.Runtime.Domain.PlayerResources
         public void RestoreFromSnapshot(PlayerResourcesSnapshot snapshot)
         {
             _resources = snapshot.Resources;
+        }
+
+        public void OnTick()
+        {
         }
     }
 }

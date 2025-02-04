@@ -4,7 +4,9 @@ using Game.Runtime.Application.SaveGame;
 using Game.Runtime.Infrastructure.Factories;
 using Game.Runtime.Infrastructure.Panels;
 using Game.Runtime.Infrastructure.Repository;
+using Game.Runtime.Presentation.Items;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 using VContainer.Unity;
 
@@ -12,7 +14,9 @@ namespace Game.Runtime.Application.DI
 {
     public class MainSceneLifetimeScope : LifetimeScope
     {
-        [SerializeField]
+        [SerializeField] 
+        private GameplayRootService gameplayRootService;
+        [SerializeField] 
         private PanelsService _panelsService;
         
         protected override void Configure(IContainerBuilder builder)
@@ -21,6 +25,7 @@ namespace Game.Runtime.Application.DI
             builder.RegisterEntryPoint<GameSaveController>(Lifetime.Scoped);
             builder.RegisterEntryPoint<GameController>(Lifetime.Scoped).AsSelf();
             builder.RegisterInstance<IPanelsService>(InstantiatePanelsService());
+            builder.RegisterInstance<IGameplayRootService>(gameplayRootService);
 
             ConfigureDomainControllers(builder);
         }
