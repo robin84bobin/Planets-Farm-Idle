@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33730288bcf0d4bd782d5b482f5819b6, type: 3}
-  m_Name: LocalConfigsService
+  m_Script: {fileID: 11500000, guid: 92401fd624e44c659c91f626cdbeda74, type: 3}
+  m_Name: ItemsConfigsSO
   m_EditorClassIdentifier: 
-  _resourcesConfigsSO: {fileID: 11400000, guid: 38ee649ac1b0144209ea2d35185ac666, type: 2}
-  _farmItemsConfigsSO: {fileID: 11400000, guid: c3ceb0888410f0d498ae9f44bec4124c, type: 2}
+  ItemsConfigs:
+    ItemConfigs: []

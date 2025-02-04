@@ -1,10 +1,11 @@
+using System;
 using Game.Runtime.Infrastructure.Panels;
-using Game.Runtime.Presentation.TopPanel;
+using R3;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Runtime.Presentation.TopBar
+namespace Game.Runtime.Presentation.TopPanel
 {
     public class TopPanel : PanelBase
     {
@@ -12,30 +13,22 @@ namespace Game.Runtime.Presentation.TopBar
         [SerializeField] private Image _softCurrencyImage;
         
         private ITopPanelPresenter _presenter;
+        private IDisposable _disposables;
 
         private void OnDestroy()
         {
+            _disposables.Dispose();
             _presenter?.Dispose();
         }
 
         public void SetPresenter(ITopPanelPresenter presenter)
         {
             _presenter = presenter;
-            _presenter.OnSoftCurrencyChanged += OnUpdateSoftCurrency;
 
             _softCurrencyImage.sprite = _presenter.SoftCurrencySprite;
-
-            UpdateSoftCurrency();
-        }
-
-        private void OnUpdateSoftCurrency()
-        {
-            UpdateSoftCurrency();
-        }
-
-        private void UpdateSoftCurrency()
-        {
-            _softCurrencyText.text = _presenter.SoftCurrencyCount.ToString();
+            _disposables = Disposable.Combine(
+                    presenter.SoftCurrencyValueText.Subscribe(x => _softCurrencyText.text = x)
+                    );
         }
     }
 }

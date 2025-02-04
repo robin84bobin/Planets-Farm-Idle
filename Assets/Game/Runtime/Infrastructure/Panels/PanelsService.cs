@@ -6,7 +6,8 @@ namespace Game.Runtime.Infrastructure.Panels
 {
     public class PanelsService : MonoBehaviour, IPanelsService
     {
-        public List<PanelBase> _scenePanels;
+        [SerializeField]
+        private List<PanelBase> _scenePanels;
 
         private void Awake()
         {

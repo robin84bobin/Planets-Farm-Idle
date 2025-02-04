@@ -1,9 +1,9 @@
-using System;
 using Game.Runtime.Application.Resources;
 using Game.Runtime.Domain.Common;
 using Game.Runtime.Domain.PlayerResources;
 using Game.Runtime.Infrastructure.Configs;
 using Game.Runtime.Presentation.TopPanel;
+using R3;
 using UnityEngine;
 using VContainer;
 
@@ -11,13 +11,10 @@ namespace Game.Runtime.Application.Game
 {
     public class TopPanelPresenter : ITopPanelPresenter
     {
-        private readonly PlayerResourcesController _playerResourcesController;
-
-        public ulong SoftCurrencyCount =>
-            _playerResourcesController.PlayerResources.GetCount(Constants.Resources.SoftCurrency);
-
         public Sprite SoftCurrencySprite { get; }
-        public event Action OnSoftCurrencyChanged;
+        public ReactiveProperty<string> SoftCurrencyValueText { get; }
+
+        private readonly PlayerResourcesController _playerResourcesController;
 
         [Preserve]
         public TopPanelPresenter(PlayerResourcesController playerResourcesController, IConfigsService configsService,
@@ -25,8 +22,11 @@ namespace Game.Runtime.Application.Game
         {
             _playerResourcesController = playerResourcesController;
 
-            SoftCurrencySprite = spritesConfigService.GetSprite(configsService.Get<ResourcesConfigs>()
-                .GetResourceConfig(Constants.Resources.SoftCurrency).IconName);
+            var resourceConfig = configsService.Get<ResourcesConfigs>().GetResourceConfig(Constants.Resources.SoftCurrency);
+            SoftCurrencySprite = spritesConfigService.GetSprite(resourceConfig.IconName);
+
+            var softCurrencyAmount = _playerResourcesController.PlayerResources.GetCount(Constants.Resources.SoftCurrency);
+            SoftCurrencyValueText = new(softCurrencyAmount.ToString());
 
             _playerResourcesController.PlayerResources.ResourceCountAdded += OnResourceCountChanged;
             _playerResourcesController.PlayerResources.ResourceCountRemoved += OnResourceCountChanged;
@@ -36,7 +36,7 @@ namespace Game.Runtime.Application.Game
         {
             if (resourceId == Constants.Resources.SoftCurrency)
             {
-                OnSoftCurrencyChanged?.Invoke();
+                SoftCurrencyValueText.Value = totalCount.ToString();
             }
         }
 
