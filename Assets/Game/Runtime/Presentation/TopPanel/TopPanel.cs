@@ -18,7 +18,6 @@ namespace Game.Runtime.Presentation.TopPanel
         private void OnDestroy()
         {
             _disposables.Dispose();
-            _presenter?.Dispose();
         }
 
         public void SetPresenter(ITopPanelPresenter presenter)
@@ -27,8 +26,9 @@ namespace Game.Runtime.Presentation.TopPanel
 
             _softCurrencyImage.sprite = _presenter.SoftCurrencySprite;
             _disposables = Disposable.Combine(
+                    presenter,
                     presenter.SoftCurrencyValueText.Subscribe(x => _softCurrencyText.text = x)
-                    );
+                );
         }
     }
 }

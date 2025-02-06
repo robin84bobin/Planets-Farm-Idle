@@ -5,6 +5,10 @@ namespace Game.Runtime.Domain.PlayerResources
     [Serializable]
     public class Item
     {
+        public event Action Unlocked;
+        public event Action Upgraded;
+        public event Action<float> ItemIncomeProgress;
+        
         public string Id;
         public int Level;
         public int RewardTime;
@@ -27,7 +31,11 @@ namespace Game.Runtime.Domain.PlayerResources
         
         public ulong GetUnlockPriceValue() => UnlockPriceValue;
         public string GetUnlockPriceResourceId() => UnlockPriceResourceId;
-        public void SetUnlocked() => Level = 1;
+        public void SetUnlocked()
+        {
+            Level = 1;
+            Unlocked?.Invoke();
+        }
 
         public string GetUpgradePriceResourceId() => UpgradeResourceId;
         public ulong GetUpgradePriceValue() => UpdragePriceValue;
@@ -35,7 +43,7 @@ namespace Game.Runtime.Domain.PlayerResources
 
         public float GetIncomeProgress()
         {
-            throw new NotImplementedException();
+            return 0;
         }
     }
 }

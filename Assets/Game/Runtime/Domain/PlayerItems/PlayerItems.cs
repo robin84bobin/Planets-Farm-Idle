@@ -8,7 +8,6 @@ namespace Game.Runtime.Domain.PlayerResources
     [Serializable]
     public class PlayerItems : ISnapshotable<PlayerItemsSnapshot>
     {
-        public event Action<string, bool> ItemUnlocked;
         public Dictionary<string, Item> Items { get; private set; } = new();
 
         public void Add(IEnumerable<Item> items)
@@ -19,18 +18,6 @@ namespace Game.Runtime.Domain.PlayerResources
                 {
                     Debug.LogError($"Fail to add item id={item.Id}, because it already exists in {this}");
                 }
-            }
-        }
-
-        public void Update(Item item)
-        {
-            if (Items.ContainsKey(item.Id))
-            {
-                Items[item.Id] = item;
-            }
-            else
-            {
-                Debug.LogError($"Fail to update item id={item.Id}, because it does not exist in {this}");
             }
         }
         
@@ -45,13 +32,6 @@ namespace Game.Runtime.Domain.PlayerResources
         public void RestoreFromSnapshot(PlayerItemsSnapshot snapshot)
         {
             Items = snapshot.Items;
-        }
-
-        public void SetUnlocked(Item item)
-        {
-            item.SetUnlocked();
-            Update(item);
-            
         }
 
         public void OnTick()

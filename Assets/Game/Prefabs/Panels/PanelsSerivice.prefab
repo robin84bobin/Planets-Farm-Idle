@@ -56,8 +56,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scenePanels:
   - {fileID: 3382617800618860187}
-  - {fileID: 1193094731577968410}
   - {fileID: 805662678494629}
+  - {fileID: 7702552744771733468}
 --- !u!223 &1520667985887723357
 Canvas:
   m_ObjectHideFlags: 0
@@ -261,7 +261,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -22.15
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5924806867150316827, guid: c6f3aabda10ed1841ba1c1a8999ef4ba, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -271,15 +272,15 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5364966909751367753, guid: c6f3aabda10ed1841ba1c1a8999ef4ba, type: 3}
   m_PrefabInstance: {fileID: 4807483897339339265}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1193094731577968410 stripped
+--- !u!114 &7702552744771733468 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5924806867150316827, guid: c6f3aabda10ed1841ba1c1a8999ef4ba, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2905784706279024093, guid: c6f3aabda10ed1841ba1c1a8999ef4ba, type: 3}
   m_PrefabInstance: {fileID: 4807483897339339265}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8c7b2dc8ec33a742a51ad4b8177a130, type: 3}
+  m_Script: {fileID: 11500000, guid: 4dca46e2ad5d43e08112b066b8c9cc70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &7020725459337510037

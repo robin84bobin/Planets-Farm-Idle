@@ -16,3 +16,4 @@ MonoBehaviour:
     ResourceConfigs:
     - Id: softCurrency
       IconName: Coin
+      DefaultValue: 50

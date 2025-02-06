@@ -42,6 +42,7 @@ namespace Game.Runtime.Application.Game
 
         public void Dispose()
         {
+            SoftCurrencyValueText.Dispose();
             _playerResourcesController.PlayerResources.ResourceCountAdded -= OnResourceCountChanged;
             _playerResourcesController.PlayerResources.ResourceCountRemoved -= OnResourceCountChanged;
         }

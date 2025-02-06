@@ -2542,7 +2542,7 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
-  farmRootService: {fileID: 1642304500}
+  gameplayRootService: {fileID: 1642304500}
   _panelsService: {fileID: 1414764951}
 --- !u!4 &1526023250
 Transform:
@@ -2675,7 +2675,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1f19abe8884167a290884cc7d2405d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _farmItemsContainer: {fileID: 1407484695}
+  _ItemsContainer: {fileID: 1407484695}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -79,11 +79,10 @@ namespace Game.Runtime.Presentation.Items
 
         private void UpdateView()
         {
-            _mainIcon.sprite = _presenter.GetMainSprite();
+            SetLockedState(_presenter.IsLocked.Value);
             _unlockPriceText.text = _presenter.GetUnlockPriceText();
             _unlockResourceIcon.sprite = _presenter.GetUnlockResourceSprite();
             _rewardResourceIcon.sprite = _presenter.GetRewardResourceSprite();
-            SetLockedState(_presenter.IsLocked.Value);
         }
 
         private void OnProgressValueChanged(float progress)
@@ -91,20 +90,12 @@ namespace Game.Runtime.Presentation.Items
             _progressBarImage.fillAmount = progress;
         }
 
-        private void OnLockedStateChanged(bool isLocked)
-        {
-            SetLockedState(isLocked);
-        }
 
         private void SetLockedState(bool isLocked)
         {
             _unlockedState.SetActive(!isLocked);
             _lockedState.SetActive(isLocked);
-        }
-
-        private void OnMainImageChanged(Sprite newSprite)
-        {
-            _mainIcon.sprite = newSprite;
+            _mainIcon.sprite = _presenter.GetMainSprite();
         }
     }
 }

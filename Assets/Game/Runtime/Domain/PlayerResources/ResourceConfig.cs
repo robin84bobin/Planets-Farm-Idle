@@ -7,5 +7,6 @@ namespace Game.Runtime.Domain.PlayerResources
     {
         public string Id;
         public string IconName;
+        public ulong DefaultValue;
     }
 }

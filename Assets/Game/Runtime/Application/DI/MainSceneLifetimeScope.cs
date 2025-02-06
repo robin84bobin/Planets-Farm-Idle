@@ -33,13 +33,13 @@ namespace Game.Runtime.Application.DI
         private void ConfigureDomainControllers(IContainerBuilder builder)
         {
             builder.Register<PlayerResourcesController>(Lifetime.Scoped).AsSelf().As<ISaveable>();
+            builder.Register<PlayerItemsController>(Lifetime.Scoped).AsSelf().As<ISaveable>();
         }
         
         private IPanelsService InstantiatePanelsService()
         {
             var service = Instantiate(_panelsService);
             DontDestroyOnLoad(service.gameObject);
-
             return service;
         }
     }

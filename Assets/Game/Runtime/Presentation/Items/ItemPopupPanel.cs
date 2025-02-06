@@ -18,9 +18,11 @@ namespace Game.Runtime.Presentation.Items
         [SerializeField] private TextMeshProUGUI _upgradePriceText;
         [SerializeField] private Button _upgradeButton;
         
-        public void SetPresenter(object o)
+        private IItemPopupPresenter _presenter;
+
+        public void SetPresenter(IItemPopupPresenter presenter)
         {
-            throw new System.NotImplementedException();
+            _presenter = presenter;
         }
     }
 }

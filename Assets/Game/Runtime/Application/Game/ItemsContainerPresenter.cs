@@ -10,14 +10,14 @@ namespace Game.Runtime.Application.Game
     {
         public List<IItemViewPresenter> ItemsPresenters { get; private set; }
         
-        private readonly PlayerResourcesController _playerResourcesController;
+        private readonly PlayerItemsController _playerItemsController;
         private readonly IIocFactory _iocFactory;
 
         [Preserve]
-        public ItemsContainerPresenter(PlayerResourcesController playerResourcesController,
+        public ItemsContainerPresenter(PlayerItemsController playerItemsController,
             IIocFactory iocFactory)
         {
-            _playerResourcesController = playerResourcesController;
+            _playerItemsController = playerItemsController;
             _iocFactory = iocFactory;
 
             InitializeItems();
@@ -25,12 +25,12 @@ namespace Game.Runtime.Application.Game
 
         private void InitializeItems()
         {
-            var items = _playerResourcesController.PlayerItems.Items;
+            var items = _playerItemsController.PlayerItems.Items;
             ItemsPresenters = new List<IItemViewPresenter>(items.Count);
             
             foreach (var item in items)
             {
-                IItemViewPresenter newItemView = _iocFactory.Create<PlanetViewViewPresenter>(item.Value);
+                IItemViewPresenter newItemView = _iocFactory.Create<PlanetViewPresenter>(item.Value);
                 ItemsPresenters.Add(newItemView);
             }
         }
