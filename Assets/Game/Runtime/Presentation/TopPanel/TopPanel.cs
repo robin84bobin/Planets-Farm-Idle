@@ -9,15 +9,17 @@ namespace Game.Runtime.Presentation.TopPanel
 {
     public class TopPanel : PanelBase
     {
-        [SerializeField] private TextMeshProUGUI _softCurrencyText;
-        [SerializeField] private Image _softCurrencyImage;
+        [SerializeField] 
+        private TextMeshProUGUI _softCurrencyText;
+        [SerializeField] 
+        private Image _softCurrencyImage;
         
         private ITopPanelPresenter _presenter;
         private IDisposable _disposables;
 
         private void OnDestroy()
         {
-            _disposables.Dispose();
+            _disposables?.Dispose();
         }
 
         public void SetPresenter(ITopPanelPresenter presenter)

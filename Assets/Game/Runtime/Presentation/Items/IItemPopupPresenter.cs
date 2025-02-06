@@ -1,5 +1,5 @@
 ﻿using System;
-using Cysharp.Threading.Tasks;
+using R3;
 using UnityEngine;
 
 namespace Game.Runtime.Presentation.Items
@@ -8,10 +8,11 @@ namespace Game.Runtime.Presentation.Items
     {
         string ItemId { get; }
         Sprite GetMainSprite();
-        
-        Sprite GetRewardResourceSprite();
-        Sprite GetUpgradePriceResourceSprite();
-        AsyncReactiveProperty<string> UpgradePriceText { get; }
+        ReactiveProperty<Sprite> UpgradeIncomeResourceSprite { get; }
+        ReactiveProperty<Sprite> UpgradePriceResourceSprite { get; }
+        ReactiveProperty<string> UpgradePriceText { get; }
+        ReactiveProperty<string> PopulationValueText { get; }
         void OnUpgradeClick();
+        string GetHeaderText();
     }
 }

@@ -15,6 +15,7 @@ namespace Game.Runtime.Infrastructure.Panels
 
         protected override void OnHide()
         {
+            base.OnHide();
             _closeButton.onClick.RemoveListener(Hide);
         }
     }

@@ -38,12 +38,7 @@ namespace Game.Runtime.Infrastructure.Panels
         public bool IsOpened<TPanel>(out TPanel panel) where TPanel : PanelBase
         {
             panel = GetPanel<TPanel>();
-            if (panel.IsActive)
-            {
-                return true;
-            }
-
-            return false;
+            return panel.IsActive;
         }
     }
 }

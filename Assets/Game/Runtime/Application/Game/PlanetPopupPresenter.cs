@@ -1,11 +1,9 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
-using Game.Runtime.Application.Resources;
-using Game.Runtime.Domain.PlayerResources;
+﻿using Game.Runtime.Domain.PlayerResources;
 using Game.Runtime.Infrastructure.Configs;
 using Game.Runtime.Infrastructure.Factories;
 using Game.Runtime.Infrastructure.Panels;
 using Game.Runtime.Presentation.Items;
+using R3;
 using UnityEngine;
 using VContainer;
 
@@ -13,12 +11,19 @@ namespace Game.Runtime.Application.Game
 {
     public class PlanetPopupPresenter : IItemPopupPresenter
     {
+        public string ItemId => _item.Id;
+        public ReactiveProperty<string> UpgradePriceText { get; }
+        public ReactiveProperty<string> PopulationValueText { get; }
+        public ReactiveProperty<Sprite> UpgradePriceResourceSprite { get; private set; }
+        public ReactiveProperty<Sprite> UpgradeIncomeResourceSprite { get; }
+
         private readonly Item _item;
         private readonly PlayerItemsController _playerItemsController;
         private readonly IConfigsService _configsService;
         private readonly ISpritesConfigService _spritesConfigService;
         private readonly IPanelsService _panelsService;
         private readonly IIocFactory _iocFactory;
+
 
         [Preserve]
         public PlanetPopupPresenter(Item item, PlayerItemsController playerItemsController, 
@@ -31,35 +36,33 @@ namespace Game.Runtime.Application.Game
             _spritesConfigService = spritesConfigService;
             _panelsService = panelsService;
             _iocFactory = iocFactory;
-        }
-        
-        public void Dispose()
-        {
+
+            UpgradePriceText = new(_item.UnlockPriceValue.ToString());
+            PopulationValueText = new(_item.Population.ToString());
+            UpgradePriceResourceSprite = new(_spritesConfigService.GetSprite(_item.UpgradeResourceId));
+            UpgradeIncomeResourceSprite = new(_spritesConfigService.GetSprite(_item.IncomeResourceId));
         }
 
-        public string ItemId { get; }
-        
-        AsyncReactiveProperty<string> IItemPopupPresenter.UpgradePriceText => _upgradePriceText;
-        private readonly AsyncReactiveProperty<string> _upgradePriceText;
-        
         public Sprite GetMainSprite()
         {
-            throw new NotImplementedException();
+            var spriteId = _item.State == ItemState.Locked ? _item.LockedIconSpriteId : _item.IconSpriteId;
+            return _spritesConfigService.GetSprite(spriteId);
         }
 
-        public Sprite GetRewardResourceSprite()
-        {
-            throw new NotImplementedException();
-        }
+        public Sprite GetIncomeResourceSprite() => _spritesConfigService.GetSprite(_item.IncomeResourceId);
 
-        public Sprite GetUpgradePriceResourceSprite()
-        {
-            throw new NotImplementedException();
-        }
+        public Sprite GetUpgradePriceResourceSprite()=> _spritesConfigService.GetSprite(_item.UpgradeResourceId);
 
-        public void OnUpgradeClick()
+        public void OnUpgradeClick() => _playerItemsController.TryUpgradeItem(_item);
+
+        public string GetHeaderText() => _item.Id;
+
+        public void Dispose()
         {
-            throw new NotImplementedException();
+            UpgradePriceText.Dispose();
+            PopulationValueText.Dispose();
+            UpgradePriceResourceSprite.Dispose();
+            UpgradeIncomeResourceSprite.Dispose();
         }
     }
 }

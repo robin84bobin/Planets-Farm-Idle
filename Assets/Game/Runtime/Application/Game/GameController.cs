@@ -3,7 +3,6 @@ using Game.Runtime.Application.Resources;
 using Game.Runtime.Infrastructure.Factories;
 using Game.Runtime.Infrastructure.Panels;
 using Game.Runtime.Infrastructure.Repository;
-using Game.Runtime.Presentation.InfoPopup;
 using Game.Runtime.Presentation.Items;
 using Game.Runtime.Presentation.TopPanel;
 using UnityEngine.Scripting;
@@ -37,9 +36,7 @@ namespace Game.Runtime.Application.Game
         void IInitializable.Initialize()
         {
             _playerResourcesController.Initialize();
-            
             _playerItemsController.Initialize();
-            _playerItemsController.ItemUnlocked += OnItemUnlocked;
 
             _panelsService.Open<TopPanel>()
                 .SetPresenter(_iocFactory.Create<TopPanelPresenter>());
@@ -49,23 +46,13 @@ namespace Game.Runtime.Application.Game
             _gameSaveController.SaveAllLocal();
         }
 
-        private void OnItemUnlocked(string itemId, bool success)
-        {
-            if (!success)
-            {
-                _panelsService.Open<InfoPopupPanel>()
-                    .SetPresenter(_iocFactory.Create<InfoPopupPresenter>($"fail to unlock item {itemId}"));
-            }
-        }
-
         public void Tick()
         {
-            _playerItemsController.PlayerItems.OnTick();
+            _playerItemsController.OnTick();
         }
 
         public void Dispose()
         {
-            _playerItemsController.ItemUnlocked -= OnItemUnlocked;
         }
     }
 }

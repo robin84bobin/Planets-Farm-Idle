@@ -1,4 +1,3 @@
-using System;
 using Game.Runtime.Domain.Common;
 using Game.Runtime.Domain.PlayerResources;
 using Game.Runtime.Infrastructure.Configs;
@@ -9,12 +8,9 @@ namespace Game.Runtime.Application.Resources
 {
     public class PlayerResourcesController : ISaveable
     {
+        public PlayerResources PlayerResources { get; private set; }
         private readonly IRepositoryService _repositoryService;
         private readonly IConfigsService _configsService;
-        
-
-        public PlayerResources PlayerResources { get; private set; }
-        
 
         [Preserve]
         public PlayerResourcesController(IRepositoryService repositoryService, IConfigsService configsService)

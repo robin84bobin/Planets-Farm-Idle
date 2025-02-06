@@ -42,19 +42,15 @@ namespace Game.Runtime.Domain.PlayerItems
                     Id = id,
                     Level = 0,
                     Population = 1000,
-                    
                     IconSpriteId = id,
                     LockedIconSpriteId = id + Constants.Suffix.LockedSprite,
-                    
                     UnlockPriceResourceId = Constants.Resources.SoftCurrency,
                     UnlockPriceValue = 10,
-                    
                     IncomeResourceId = Constants.Resources.SoftCurrency,
                     IncomeValue = 50,
                     IncomePeriodSec = 10,
-                    
                     UpgradeResourceId = Constants.Resources.SoftCurrency,
-                    UpdragePriceValue = 100
+                    UpdradePriceValue = 100
                 };
                 i++;
             }

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Runtime.Domain.Common;
+using Game.Runtime.Domain.PlayerResources;
 using UnityEngine;
 
-namespace Game.Runtime.Domain.PlayerResources
+namespace Game.Runtime.Domain.PlayerItems
 {
     [Serializable]
     public class PlayerItems : ISnapshotable<PlayerItemsSnapshot>
@@ -16,26 +17,26 @@ namespace Game.Runtime.Domain.PlayerResources
             {
                 if (!Items.TryAdd(item.Id, item))
                 {
-                    Debug.LogError($"Fail to add item id={item.Id}, because it already exists in {this}");
+                    Debug.LogError($"Fail to add item id={item.Id} :  already exists");
                 }
             }
         }
-        
+
         public PlayerItemsSnapshot GetSnapshot()
         {
-            return new PlayerItemsSnapshot()
+            return new PlayerItemsSnapshot
             {
                 Items = Items
             };
         }
 
+        public void OnTick()
+        {
+        }
+
         public void RestoreFromSnapshot(PlayerItemsSnapshot snapshot)
         {
             Items = snapshot.Items;
-        }
-
-        public void OnTick()
-        {
         }
 
         public Item GetItem(string itemId)

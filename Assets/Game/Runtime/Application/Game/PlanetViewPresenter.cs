@@ -1,5 +1,3 @@
-using System;
-using Game.Runtime.Application.Resources;
 using Game.Runtime.Domain.PlayerResources;
 using Game.Runtime.Infrastructure.Configs;
 using Game.Runtime.Infrastructure.Factories;
@@ -14,11 +12,13 @@ namespace Game.Runtime.Application.Game
     public class PlanetViewPresenter : IItemViewPresenter
     {
         public string ItemId => _itemId;
-        public Sprite GetMainSprite() => IsLocked.Value ? _lockedIconSprite : _iconSprite;
+        public Sprite GetMainSprite() => IsLockedState.Value ? _lockedIconSprite : _iconSprite;
+        public ReactiveProperty<bool> IsLockedState { get; private set; }
+        public ReactiveProperty<bool> IsProgressState { get; private set; }
+        public ReactiveProperty<bool> IsRewardedState { get; private set; }
         public Sprite GetUnlockResourceSprite() => _unlockPriceResourceSprite;
 
-        public ReactiveProperty<bool> IsLocked { get; } 
-        public ReactiveProperty<float> IncomeProgress { get; }
+        public ReactiveProperty<float> IncomeProgress { get; private set; }
 
         private readonly PlayerItemsController _playerItemsController;
         private readonly IConfigsService _configsService;
@@ -26,7 +26,7 @@ namespace Game.Runtime.Application.Game
         private readonly IPanelsService _panelsService;
         private readonly IIocFactory _iocFactory;
         private readonly Item _item;
-        private readonly string _itemId;
+        private string _itemId;
         private Sprite _lockedIconSprite;
         private Sprite _iconSprite;
         private Sprite _unlockPriceResourceSprite;
@@ -44,43 +44,46 @@ namespace Game.Runtime.Application.Game
             _panelsService = panelsService;
             _iocFactory = iocFactory;
 
-            _itemId = item.Id;
-            _iconSprite = _spritesConfigService.GetSprite(item.IconSpriteId);
-            _lockedIconSprite = _spritesConfigService.GetSprite(item.LockedIconSpriteId);
-            _unlockPriceResourceSprite = _spritesConfigService.GetSprite(item.UnlockPriceResourceId);
-            IsLocked = new (item.IsLocked);
-            IncomeProgress = new (item.GetIncomeProgress());
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            _itemId = _item.Id;
+            _iconSprite = _spritesConfigService.GetSprite(_item.IconSpriteId);
+            _lockedIconSprite = _spritesConfigService.GetSprite(_item.LockedIconSpriteId);
+            _unlockPriceResourceSprite = _spritesConfigService.GetSprite(_item.UnlockPriceResourceId);
+            IsLockedState = new(_item.State == ItemState.Locked);
+            IsProgressState = new(_item.State == ItemState.InProgress);
+            IncomeProgress = new(_item.GetIncomeProgress());
 
             _item.Unlocked += OnUnlocked;
         }
 
-        private void OnUnlocked() => IsLocked.Value = _item.IsLocked;
-
-        void IDisposable.Dispose()
+        public void Dispose()
         {
             _item.Unlocked -= OnUnlocked;
+            IsLockedState.Dispose();
+            IncomeProgress.Dispose();
         }
 
         public void OnItemClick()
         {
-            if (IsLocked.Value)
+            if (IsLockedState.Value)
             {
                 _playerItemsController.TryUnlockItem(_itemId);
             }
             else
             {
                 _panelsService.Open<ItemPopupPanel>()
-                    .SetPresenter(_iocFactory.Create<PlanetPopupPresenter>(_itemId));
+                    .SetPresenter(_iocFactory.Create<PlanetPopupPresenter>(_item));
             }
         }
 
-        public void OnRewardClick()
-        {
-            throw new NotImplementedException();
-        }
-
+        private void OnUnlocked() => IsLockedState.Value = _item.State == ItemState.Locked;
+        public void OnIncomeClick() => _playerItemsController.TryGetRewardFromItem(_itemId);
         public string GetUnlockPriceText() => _item.UnlockPriceValue.ToString();
-        public Sprite GetRewardResourceSprite() => _spritesConfigService.GetSprite(_item.UnlockPriceResourceId);
+        public Sprite GetIncomeResourceSprite() => _spritesConfigService.GetSprite(_item.IncomeResourceId);
 
     }
 }

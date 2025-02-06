@@ -82,9 +82,5 @@ namespace Game.Runtime.Domain.PlayerResources
         {
             _resources = snapshot.Resources;
         }
-
-        public void OnTick()
-        {
-        }
     }
 }

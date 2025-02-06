@@ -9,12 +9,14 @@ namespace Game.Runtime.Presentation.Items
         string ItemId { get; }
         Sprite GetMainSprite();
         
-        ReactiveProperty<bool> IsLocked { get; }
+        ReactiveProperty<bool> IsLockedState { get; }
+        ReactiveProperty<bool> IsProgressState { get; }
+        ReactiveProperty<bool> IsRewardedState { get; }
         ReactiveProperty<float> IncomeProgress { get; }
-        Sprite GetRewardResourceSprite();
+        Sprite GetIncomeResourceSprite();
         Sprite GetUnlockResourceSprite();
         string GetUnlockPriceText();
         void OnItemClick();
-        void OnRewardClick();
+        void OnIncomeClick();
     }
 }

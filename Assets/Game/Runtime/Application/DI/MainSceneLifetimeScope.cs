@@ -6,7 +6,6 @@ using Game.Runtime.Infrastructure.Panels;
 using Game.Runtime.Infrastructure.Repository;
 using Game.Runtime.Presentation.Items;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VContainer;
 using VContainer.Unity;
 
