@@ -104,14 +104,12 @@ namespace Game.Runtime.Infrastructure.Repository
         {
             PlayerPrefs.DeleteAll();
             PlayerPrefs.Save();
-
             return UniTask.CompletedTask;
         }
 
         public string ExportLocalSavesToJson()
         {
             var json = JsonConvert.SerializeObject(new SavesData(_cachedSaves), Formatting.Indented);
-
             return json;
         }
 

@@ -19,7 +19,10 @@ namespace Game.Runtime.Application.Initialization.LoadingTasks
 
         public UniTask LoadAsync()
         {
-            return UniTask.WhenAll(_spritesConfigService.Initialize(), _configsService.Initialize());
+            return UniTask.WhenAll(
+                _spritesConfigService.Initialize(), 
+                _configsService.Initialize()
+                );
         }
     }
 }
