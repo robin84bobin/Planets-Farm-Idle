@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Game.Runtime.Application.Resources;
+using Game.Runtime.Application.Game.Controllers;
 using Game.Runtime.Infrastructure.Factories;
 using Game.Runtime.Presentation.Items;
 using R3;
 using VContainer;
 
-namespace Game.Runtime.Application.Game
+namespace Game.Runtime.Application.Game.Presentation
 {
     public class ItemsContainerPresenter : IItemsContainerPresenter
     {

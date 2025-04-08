@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 5266125593639168881}
   - component: {fileID: 8019802931863089282}
   m_Layer: 5
-  m_Name: TimeText
+  m_Name: ProgressText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -515,6 +515,7 @@ MonoBehaviour:
   _unlockedState: {fileID: 8495026970891777428}
   _progressContainer: {fileID: 5564512366540979095}
   _progressBarImage: {fileID: 6948507870913343312}
+  _progressBarText: {fileID: 8019802931863089282}
   _rewardResourceIcon: {fileID: 648301223005266422}
   _rewardButton: {fileID: 8010079640416599485}
   _lockedState: {fileID: 6539271359257448856}

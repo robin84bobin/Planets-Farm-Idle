@@ -9,7 +9,7 @@ using Game.Runtime.Infrastructure.Time;
 using Game.Runtime.Presentation.InfoPopup;
 using UnityEngine.Scripting;
 
-namespace Game.Runtime.Application.Game
+namespace Game.Runtime.Application.Game.Controllers
 {
     public class PlayerItemsController : ISaveable
     {
@@ -96,12 +96,20 @@ namespace Game.Runtime.Application.Game
         
         public void TryGetRewardFromItem(string itemId)
         {
-            
+            if (PlayerItems.Items.TryGetValue(itemId, out var item))
+            {
+                if (item.incomeProgress < 1f)
+                    return;
+                item.GrabReward();
+            }
         }
 
         public void OnTick()
         {
-            
+            foreach (var item in PlayerItems.Items)
+            {
+                item.Value.UpdateTime(_timeService.CurrentTime);
+            }
         }
     }
 }

@@ -6,13 +6,14 @@ namespace Game.Runtime.Domain.PlayerResources
     [Serializable]
     public class Item
     {
-        public event Action Unlocked;
+        public event Action StateChanged;
         public event Action Upgraded;
-        public event Action<float> ItemIncomeProgress;
+        public event Action<float> ItemIncomeProgressChanged;
         public string Id;
         public int Level;
         public int MaxLevel;
-        public int RewardTime;
+        public DateTime RewardTime;
+        public DateTime StartTime;
         public string IconSpriteId;
         public string LockedIconSpriteId;
         public int Population;
@@ -25,12 +26,13 @@ namespace Game.Runtime.Domain.PlayerResources
         public ulong UpdradePriceValue;
         public ItemState State = ItemState.Locked;
 
-        public float GetIncomeProgress() => 0;
+        public float incomeProgress;
+        public double incomeRemainSec;
 
         public void SetUnlocked(DateTime time)
         {
             UpgradeLevel();
-            Unlocked?.Invoke();
+            StateChanged?.Invoke();
         }
 
         public void UpgradeLevel()
@@ -42,9 +44,46 @@ namespace Game.Runtime.Domain.PlayerResources
             Upgraded?.Invoke();
         }
 
-        private void UpdateNextIncomeTime()
+        public void UpdateTime(DateTime currentTime)
         {
+            if (State != ItemState.InProgress)
+                return;
             
+            if (RewardTime == DateTime.MinValue)
+            {
+                StartTime = currentTime;
+                RewardTime = StartTime.AddSeconds(IncomePeriodSec);
+            }
+
+            incomeRemainSec = RewardTime.Subtract(currentTime).TotalSeconds;
+            
+            if (currentTime <= RewardTime)
+            {
+                incomeProgress = (float)(currentTime - StartTime).TotalSeconds / IncomePeriodSec;
+                SetState(ItemState.InProgress);
+            }
+            else
+            {
+                incomeProgress = 1;
+                SetState(ItemState.Rewarded);
+            }
+
+            ItemIncomeProgressChanged?.Invoke(incomeProgress);
+        }
+
+        private void SetState(ItemState state)
+        {
+            if (State == state)
+                return;
+
+            State = state;
+            StateChanged?.Invoke();
+        }
+        
+        public void GrabReward()
+        {
+            RewardTime = DateTime.MinValue;
+            State = ItemState.InProgress;
         }
     }
 }

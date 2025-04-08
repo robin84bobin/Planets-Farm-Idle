@@ -23,6 +23,8 @@ namespace Game.Runtime.Presentation.Items
         [SerializeField] 
         private Image _progressBarImage;
         [SerializeField] 
+        private TextMeshProUGUI _progressBarText;
+        [SerializeField] 
         private Image _rewardResourceIcon;
         [SerializeField] 
         private Button _rewardButton;
@@ -54,15 +56,32 @@ namespace Game.Runtime.Presentation.Items
             _disposables = Disposable.Combine(
                 _presenter,
                 _presenter.IsLockedState.Subscribe(isLocked => SetLockedState(isLocked)),
-                _presenter.IncomeProgress.Subscribe(value => OnProgressValueChanged(value))
+                _presenter.IncomeProgress.Subscribe(value => OnProgressValueChanged(value)),
+                _presenter.IsProgressState.Subscribe(value => SetProgressState(value)),
+                _presenter.IsRewardedState.Subscribe(value => SetRewardState(value))
             );
             _button.onClick.AddListener(_presenter.OnItemClick);
             _rewardButton.onClick.AddListener(_presenter.OnIncomeClick);
         }
 
+        private void SetProgressState(bool value)
+        {
+            _rewardButton.gameObject.SetActive(value == false);
+            _progressContainer.gameObject.SetActive(value == true);
+        }
+
+        private void SetRewardState(bool value)
+        {
+            _rewardButton.gameObject.SetActive(value == true);
+            _progressContainer.gameObject.SetActive(value == false);
+        }
+
         private void UpdateView()
         {
             SetLockedState(_presenter.IsLockedState.Value);
+            SetProgressState(_presenter.IsProgressState.Value);
+            SetRewardState(_presenter.IsRewardedState.Value);
+            
             _unlockPriceText.text = _presenter.GetUnlockPriceText();
             _unlockResourceIcon.sprite = _presenter.GetUnlockResourceSprite();
             _rewardResourceIcon.sprite = _presenter.GetIncomeResourceSprite();
@@ -71,6 +90,7 @@ namespace Game.Runtime.Presentation.Items
         private void OnProgressValueChanged(float progress)
         {
             _progressBarImage.fillAmount = progress;
+            _progressBarText.text = _presenter.IncomeProgressBarText;
         }
 
         private void SetLockedState(bool isLocked)

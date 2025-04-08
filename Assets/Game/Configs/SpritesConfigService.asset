@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mockSprite: {fileID: 21300000, guid: 5ac6e65e9654645db9b66149d7a3e7b5, type: 3}
   _sprites:
-  - _id: Coin
+  - _id: softCurrency
     _sprite: {fileID: 21300000, guid: 8638684383e4a4f48b0e4dac42bd6996, type: 3}
   - _id: Planet1
     _sprite: {fileID: 21300000, guid: 96545f74026054be5b6e407bbe04ac59, type: 3}

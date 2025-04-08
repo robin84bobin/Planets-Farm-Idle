@@ -7,7 +7,7 @@ using R3;
 using UnityEngine;
 using VContainer;
 
-namespace Game.Runtime.Application.Game
+namespace Game.Runtime.Application.Game.Presentation
 {
     public class TopPanelPresenter : ITopPanelPresenter
     {

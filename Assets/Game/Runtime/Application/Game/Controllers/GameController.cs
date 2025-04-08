@@ -1,4 +1,5 @@
 using System;
+using Game.Runtime.Application.Game.Presentation;
 using Game.Runtime.Application.Resources;
 using Game.Runtime.Infrastructure.Factories;
 using Game.Runtime.Infrastructure.Panels;
@@ -8,7 +9,7 @@ using Game.Runtime.Presentation.TopPanel;
 using UnityEngine.Scripting;
 using VContainer.Unity;
 
-namespace Game.Runtime.Application.Game
+namespace Game.Runtime.Application.Game.Controllers
 {
     public class GameController : IInitializable, ITickable, IDisposable
     {

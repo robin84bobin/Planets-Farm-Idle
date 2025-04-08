@@ -1,4 +1,5 @@
-﻿using Game.Runtime.Domain.PlayerResources;
+﻿using Game.Runtime.Application.Game.Controllers;
+using Game.Runtime.Domain.PlayerResources;
 using Game.Runtime.Infrastructure.Configs;
 using Game.Runtime.Infrastructure.Factories;
 using Game.Runtime.Infrastructure.Panels;
@@ -7,7 +8,7 @@ using R3;
 using UnityEngine;
 using VContainer;
 
-namespace Game.Runtime.Application.Game
+namespace Game.Runtime.Application.Game.Presentation
 {
     public class PlanetPopupPresenter : IItemPopupPresenter
     {

@@ -13,6 +13,7 @@ namespace Game.Runtime.Presentation.Items
         ReactiveProperty<bool> IsProgressState { get; }
         ReactiveProperty<bool> IsRewardedState { get; }
         ReactiveProperty<float> IncomeProgress { get; }
+        string IncomeProgressBarText { get; }
         Sprite GetIncomeResourceSprite();
         Sprite GetUnlockResourceSprite();
         string GetUnlockPriceText();
