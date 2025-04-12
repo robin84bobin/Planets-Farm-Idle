@@ -1,5 +1,5 @@
 using System;
-using Game.Runtime.Infrastructure.Panels;
+using Game.Runtime.Presentation.Panels;
 using R3;
 using TMPro;
 using UnityEngine;

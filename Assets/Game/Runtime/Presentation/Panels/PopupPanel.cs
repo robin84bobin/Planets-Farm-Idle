@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Runtime.Infrastructure.Panels
+namespace Game.Runtime.Presentation.Panels
 {
     public abstract class PopupPanel : PanelBase
     {

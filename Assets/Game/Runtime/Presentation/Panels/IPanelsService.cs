@@ -1,4 +1,4 @@
-namespace Game.Runtime.Infrastructure.Panels
+namespace Game.Runtime.Presentation.Panels
 {
     public interface IPanelsService
     {

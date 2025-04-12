@@ -3,10 +3,10 @@ using Game.Runtime.Domain.PlayerItems;
 using Game.Runtime.Domain.PlayerResources;
 using Game.Runtime.Infrastructure.Configs;
 using Game.Runtime.Infrastructure.Factories;
-using Game.Runtime.Infrastructure.Panels;
 using Game.Runtime.Infrastructure.Repository;
 using Game.Runtime.Infrastructure.Time;
 using Game.Runtime.Presentation.InfoPopup;
+using Game.Runtime.Presentation.Panels;
 using UnityEngine.Scripting;
 
 namespace Game.Runtime.Application.Game.Controllers
@@ -24,7 +24,7 @@ namespace Game.Runtime.Application.Game.Controllers
 
         public void Save()
         {
-            _repositoryService.Save(PlayerItems.GetSnapshot());
+            _repositoryService.Save(new PlayerItemsSnapshot(PlayerItems.Items));
         }
 
         [Preserve]
@@ -45,7 +45,7 @@ namespace Game.Runtime.Application.Game.Controllers
             PlayerItems = new PlayerItems();
             if (_repositoryService.TryLoad<PlayerItemsSnapshot>(out var snapshot))
             {
-                PlayerItems.RestoreFromSnapshot(snapshot);
+                PlayerItems.Update(snapshot.Items);
                 return;
             }
         
@@ -96,12 +96,14 @@ namespace Game.Runtime.Application.Game.Controllers
         
         public void TryGetRewardFromItem(string itemId)
         {
-            if (PlayerItems.Items.TryGetValue(itemId, out var item))
-            {
-                if (item.incomeProgress < 1f)
+            if (PlayerItems.Items.TryGetValue(itemId, out var item) == false)
+                return;
+            
+            if (item.State != ItemState.Rewarded)
                     return;
-                item.GrabReward();
-            }
+                
+            var reward = item.ClaimRewards();
+            _playerResourcesController.PlayerResources.Add(new Resource(reward.Item1, reward.Item2));
         }
 
         public void OnTick()

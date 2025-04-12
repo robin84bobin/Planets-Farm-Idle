@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Game.Runtime.Infrastructure.Panels
+namespace Game.Runtime.Presentation.Panels
 {
     public class PanelsService : MonoBehaviour, IPanelsService
     {

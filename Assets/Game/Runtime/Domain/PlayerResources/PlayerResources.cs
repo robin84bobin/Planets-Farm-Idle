@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Game.Runtime.Domain.PlayerResources
 {
     [Serializable]
-    public class PlayerResources : ISnapshotable<PlayerResourcesSnapshot>
+    public class PlayerResources //: ISnapshotable<PlayerResourcesSnapshot>
     {
         public event Action<string, ulong, ulong> ResourceCountAdded;
         public event Action<string, ulong, ulong> ResourceCountRemoved;
@@ -70,17 +70,9 @@ namespace Game.Runtime.Domain.PlayerResources
             return _resources.TryGetValue(key, out var count) ? count : 0u;
         }
 
-        public PlayerResourcesSnapshot GetSnapshot()
+        public void Update(Dictionary<string,ulong> resources)
         {
-            return new PlayerResourcesSnapshot()
-            {
-                Resources = _resources,
-            };
-        }
-
-        public void RestoreFromSnapshot(PlayerResourcesSnapshot snapshot)
-        {
-            _resources = snapshot.Resources;
+            _resources = resources;
         }
     }
 }

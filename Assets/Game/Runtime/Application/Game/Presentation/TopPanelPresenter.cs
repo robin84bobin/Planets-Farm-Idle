@@ -25,7 +25,7 @@ namespace Game.Runtime.Application.Game.Presentation
             var resourceConfig = configsService.Get<ResourcesConfigs>().GetResourceConfig(Constants.Resources.SoftCurrency);
             SoftCurrencySprite = spritesConfigService.GetSprite(resourceConfig.IconName);
 
-            var softCurrencyAmount = _playerResourcesController.PlayerResources.GetCount(Constants.Resources.SoftCurrency);
+            var softCurrencyAmount = _playerResourcesController.GetResourceCount(Constants.Resources.SoftCurrency);
             SoftCurrencyValueText = new(softCurrencyAmount.ToString());
 
             _playerResourcesController.PlayerResources.ResourceCountAdded += OnResourceCountChanged;

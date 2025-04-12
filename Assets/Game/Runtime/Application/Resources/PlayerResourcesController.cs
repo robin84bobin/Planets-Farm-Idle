@@ -8,9 +8,9 @@ namespace Game.Runtime.Application.Resources
 {
     public class PlayerResourcesController : ISaveable
     {
-        public PlayerResources PlayerResources { get; private set; }
         private readonly IRepositoryService _repositoryService;
         private readonly IConfigsService _configsService;
+        public PlayerResources PlayerResources { get; private set; }
 
         [Preserve]
         public PlayerResourcesController(IRepositoryService repositoryService, IConfigsService configsService)
@@ -21,7 +21,7 @@ namespace Game.Runtime.Application.Resources
 
         public void Save()
         {
-            _repositoryService.Save(PlayerResources.GetSnapshot());
+            _repositoryService.Save(new PlayerResourcesSnapshot(PlayerResources.Resources));
         }
 
         public void Initialize()
@@ -29,12 +29,14 @@ namespace Game.Runtime.Application.Resources
             PlayerResources = new PlayerResources();
             if (_repositoryService.TryLoad<PlayerResourcesSnapshot>(out var snapshot))
             {
-                PlayerResources.RestoreFromSnapshot(snapshot);
+                PlayerResources.Update(snapshot.Resources);
                 return;
             }
 
             var softCurrencyConfig = _configsService.Get<ResourcesConfigs>().GetResourceConfig(Constants.Resources.SoftCurrency);
             PlayerResources.Add(new Resource(Constants.Resources.SoftCurrency, softCurrencyConfig.DefaultValue));
         }
+
+        public ulong GetResourceCount(string softCurrency) => PlayerResources.GetCount(softCurrency);
     }
 }

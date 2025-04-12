@@ -1,4 +1,4 @@
-﻿using Game.Runtime.Infrastructure.Panels;
+﻿using Game.Runtime.Presentation.Panels;
 using TMPro;
 using UnityEngine;
 

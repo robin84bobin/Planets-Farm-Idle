@@ -80,10 +80,22 @@ namespace Game.Runtime.Domain.PlayerResources
             StateChanged?.Invoke();
         }
         
-        public void GrabReward()
+        public Tuple<string, ulong> ClaimRewards()
+        {
+            ResetProgress();
+            return GetCurrentReward();
+        }
+
+        private void ResetProgress()
         {
             RewardTime = DateTime.MinValue;
-            State = ItemState.InProgress;
+            incomeProgress = 0;
+            SetState(ItemState.InProgress);
+        }
+
+        public Tuple<string,ulong> GetCurrentReward()
+        {
+            return new Tuple<string, ulong>(IncomeResourceId, IncomeValue);
         }
     }
 }
